@@ -7,7 +7,7 @@
       <el-main>
 
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="用户名" prop="username">
+          <el-form-item label="用户名" prop="userName">
             <el-input v-model="ruleForm.userName"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
@@ -39,8 +39,7 @@ export default {
       },
       rules: {
         userName: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 1, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+          { required: true, message: '请输入用户名', trigger: 'change' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'change' }
@@ -54,8 +53,6 @@ export default {
         if (valid) {
           const _this =this
           this.$axios.post("/user/login",this.ruleForm).then(res=>{
-            console.log(res)
-            console.log(res.data.code)
             if(res.data.code==200){
             const token = res.data.data.token;
             const nickname = res.data.data.nickname;
@@ -75,7 +72,11 @@ export default {
 
           })
         } else {
-          console.log('error submit!!');
+          this.$message({
+            showClose: true,
+            message: "请按要求输入",
+            type: 'error'
+          });
           return false;
         }
       });

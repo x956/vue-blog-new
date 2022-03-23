@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: '',
-    nickname: ''
+    nickname: localStorage.getItem("nickname")
   },
   getters: {
 
@@ -29,8 +29,8 @@ export default new Vuex.Store({
     REMOVE_INFO: (state) => {
       state.token=""
       state.nickname=""
-      localStorage.setItem("token","")
-      localStorage.setItem("nickname","")
+      localStorage.removeItem("token")
+      localStorage.removeItem("nickname")
     }
 
   },

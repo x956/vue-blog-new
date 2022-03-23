@@ -4,9 +4,15 @@
 
     <div class="block">
       <el-timeline class="m_bloglist">
-        <el-timeline-item :timestamp=blog.create_time placement="top" v-for="blog in blogs">
+        <el-timeline-item :timestamp=blog.updateTime placement="top" v-for="blog in blogs">
           <el-card>
-            <h4>{{ blog.title }}</h4>
+            <h4>
+            <router-link :to="{name :'BlogDetail', params :{blogId:blog.id}}">
+              {{ blog.title }}
+            </router-link>
+
+
+            </h4>
             <p>{{ blog.description }}</p>
           </el-card>
         </el-timeline-item>
@@ -30,7 +36,7 @@
 
 <script>
 
-import Header from "@/components/Header";
+import Header from "../components/Header";
 export default {
   name: "Blogs",
   components: {Header},
@@ -49,7 +55,6 @@ export default {
     page(currentPage){
       const _this= this
       _this.$axios.get("/blogs?currentPage="+currentPage).then(res=>{
-        console.log(res)
         _this.blogs = res.data.data.records
         _this.currentPage=res.data.data.current
         _this.total=res.data.data.total
@@ -72,7 +77,7 @@ export default {
 }
 
 .mpage{
-  text-align: right;
+  text-align: center;
 }
 
 

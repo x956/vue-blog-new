@@ -45,16 +45,20 @@ export default {
       blogs: {},
       currentPage: 1,
       total: 0,
-      pageSize: 5
+      pageSize: 5,
+      search_content: ''
     }
   },
   created() {
+    console.log(this.$route.query.search_content)
+    this.search_content = this.$route.query.search_content
     this.page(this.currentPage)
   },
   methods:{
     page(currentPage){
       const _this= this
-      _this.$axios.get("/blogs?currentPage="+currentPage).then(res=>{
+      console.log("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content)
+      _this.$axios.get("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content).then(res=>{
         _this.blogs = res.data.data.records
         _this.currentPage=res.data.data.current
         _this.total=res.data.data.total

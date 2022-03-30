@@ -11,9 +11,15 @@
           <el-input type="textarea" v-model="ruleForm.description"></el-input>
         </el-form-item>
 
+        <!--引入md编辑器-->
         <el-form-item label="内容" prop="content">
-          <mavon-editor v-model="ruleForm.content"></mavon-editor>
+          <mavon-editor v-model="ruleForm.content"
+                        ref="md"
+                        @change="change"
+                        @imgAdd="imgAdd"
+          ></mavon-editor>
         </el-form-item>
+
 
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -38,8 +44,9 @@ export default {
         id :'',
         title: '',
         description:'',
-        content:''
+        content:'',
       },
+      html : '',
       rules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
@@ -69,6 +76,8 @@ export default {
   },
   methods:{
     submitForm(formName) {
+      console.log(this.ruleForm.content);
+      console.log(this.html);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const _this = this
@@ -108,8 +117,29 @@ export default {
 
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
+    },
+
+    imgAdd(pos,$file){
+      let formdata = new FormData();
+      formdata.append('image',$file);
+      const _this = this
+      this.$axios.post("/blogs/addImage",formdata).then(res =>{
+
+        if(res.data.code == 200){
+          this.$refs.md.$img2Url(pos, res.data.data.url);
+        }else{
+          this.$message.error(res.data.msg)
+        }
+
+      }).catch(err =>{
+        console.log(err)
+      })
+    },
+    change(value, render) {
+      this.html = render;
+    },
   }
+
 
 }
 

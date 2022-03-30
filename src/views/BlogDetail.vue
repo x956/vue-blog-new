@@ -42,7 +42,6 @@ export default {
 
       //渲染获得的markdown类型
       var MarkdownIt = require("markdown-it")
-      var MarkdownIt = require("markdown-it")
       var md = new MarkdownIt()
       var result=md.render(blog.content)
 

@@ -46,18 +46,16 @@ export default {
       currentPage: 1,
       total: 0,
       pageSize: 5,
-      search_content: ''
     }
   },
   created() {
-    console.log(this.$route.query.search_content)
-    this.search_content = this.$route.query.search_content
+    console.log(this.currentPage)
     this.page(this.currentPage)
   },
   methods:{
     page(currentPage){
       const _this= this
-      _this.$axios.get("/blog/getRecycle",{
+      _this.$axios.get("/blog/getRecycle?currentPage="+currentPage,{
         headers:{
           "token":localStorage.getItem("token")
         }

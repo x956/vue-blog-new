@@ -23,6 +23,8 @@
         <el-divider direction="vertical"></el-divider>
         <span> <el-link type="success" href="/blog/add">发表博客</el-link></span>
         <el-divider direction="vertical"></el-divider>
+        <span> <el-link type="danger" href="/blog/recycle">回收站</el-link></span>
+        <el-divider direction="vertical"></el-divider>
         <span v-show="!hasLogin"> <el-link type="primary" href="/login">登录</el-link></span>
         <span v-show="hasLogin"> <el-link type="warning" @click="logout">退出</el-link></span>
       </div>

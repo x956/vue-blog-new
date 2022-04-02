@@ -76,8 +76,6 @@ export default {
   },
   methods:{
     submitForm(formName) {
-      console.log(this.ruleForm.content);
-      console.log(this.html);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const _this = this

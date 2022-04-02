@@ -4,7 +4,7 @@
 
     <div class="mblog">
       <h2> {{ blog.title }} </h2>
-      <router-link v-if="hasLogin" :to="{name: 'BlogEdit',params: {blogId: blog.id}}">编辑</router-link>
+      <router-link v-if="hasLogin" :to="{name: 'BlogEdit',params: {blogId: blog.id}}" icon="el-icon-edit">编辑</router-link>
       <el-divider></el-divider>
       <div class="markdown-body" v-html="blog.content"></div>
 

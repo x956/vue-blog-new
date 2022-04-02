@@ -4,6 +4,7 @@ import Login from '@/views/Login'
 import Blogs from "@/views/Blogs";
 import BlogDetail from "@/views/BlogDetail";
 import BlogEdit from "@/views/BlogEdit";
+import BlogRecycle from "@/views/BlogRecycle";
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/blogs',
     name: 'Blogs',
     component: Blogs
+  },
+  {
+    path: '/blog/recycle',
+    name: 'BlogRecycle',
+    component: BlogRecycle
   },
   {
     path: '/blog/add',

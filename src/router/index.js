@@ -5,6 +5,7 @@ import Blogs from "@/views/Blogs";
 import BlogDetail from "@/views/BlogDetail";
 import BlogEdit from "@/views/BlogEdit";
 import BlogRecycle from "@/views/BlogRecycle";
+import Container from "@/components/Container";
 
 Vue.use(VueRouter)
 
@@ -12,12 +13,17 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect : {name : "Blogs"}
+    redirect : {name : "Login"}
   },
   {
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/index',
+    name: 'Container',
+    component: Container
   },
   {
     path: '/blogs',

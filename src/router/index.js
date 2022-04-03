@@ -1,14 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '@/views/Login'
+import Login from '@/views/Admin/Login'
 import Blogs from "@/views/Blogs";
 import BlogDetail from "@/views/BlogDetail";
 import BlogEdit from "@/views/BlogEdit";
 import BlogRecycle from "@/views/BlogRecycle";
-import Container from "@/components/Container";
+import HelloWorld from "@/views/Admin/HelloWorld";
+import ArticleList from "@/views/Admin/ArticleList";
+import Demo2 from "@/views/Admin/ArticleDetail";
+import ArticleRecycle from "@/views/Admin/ArticleRecycle";
+import ArticleDetail from "@/views/Admin/ArticleDetail";
+
 
 Vue.use(VueRouter)
-
 const routes = [
   {
     path: '/',
@@ -16,14 +20,31 @@ const routes = [
     redirect : {name : "Login"}
   },
   {
+    path:'/index',
+    name: 'HelloWorld',
+    component: HelloWorld,
+    children:[
+      {
+        path:'/articleList',
+        name:'ArticleList',
+        component: ArticleList
+      },
+      {
+        path:'/articleRecycle',
+        name:'ArticleRecycle',
+        component: ArticleRecycle
+      },
+      {
+        path:'/articleDetail',
+        name:'ArticleDetail',
+        component: ArticleDetail
+      },
+    ]
+  },
+  {
     path: '/login',
     name: 'Login',
     component: Login
-  },
-  {
-    path: '/index',
-    name: 'Container',
-    component: Container
   },
   {
     path: '/blogs',

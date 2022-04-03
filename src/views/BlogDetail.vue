@@ -1,10 +1,8 @@
 <template>
   <div>
-    <Header></Header>
 
     <div class="mblog">
       <h2> {{ blog.title }} </h2>
-      <router-link v-if="hasLogin" :to="{name: 'BlogEdit',params: {blogId: blog.id}}" icon="el-icon-edit">编辑</router-link>
       <el-divider></el-divider>
       <div class="markdown-body" v-html="blog.content"></div>
 
@@ -14,11 +12,9 @@
 </template>
 
 <script>
-import Header from "../components/Header";
 import 'github-markdown-css/github-markdown.css'
 export default {
   name: "BlogDetail",
-  components :{Header},
   data(){
     return{
       blog:{
@@ -26,13 +22,9 @@ export default {
         title: '',
         content: ''
       },
-      hasLogin : false
     }
   },
   created() {
-    if(this.$store.getters.getNickName){
-      this.hasLogin = true
-    }
     const blogId=this.$route.params.blogId
     const _this = this
     this.$axios.get("/blogs/"+blogId).then(res =>{

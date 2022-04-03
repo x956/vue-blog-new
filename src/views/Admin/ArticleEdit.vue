@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Header></Header>
     <div class="m-content">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
         <el-form-item label="标题" prop="title">
@@ -34,10 +33,8 @@
 </template>
 
 <script>
-import Header from "@/components/Header";
 export default {
-  name: "BlogEdit",
-  components: {Header},
+  name: "ArticleEdit",
   data() {
     return{
       ruleForm: {
@@ -71,7 +68,7 @@ export default {
         this.ruleForm.title = blog.title
         this.ruleForm.description = blog.description
         this.ruleForm.content = blog.content
-    })
+      })
     }
   },
   methods:{
@@ -87,13 +84,13 @@ export default {
             if (res.data.code==200) {
 
               _this.$message({
-              showClose: true,
-              message: res.data.msg,
-              type: 'success'
-            });
+                showClose: true,
+                message: res.data.msg,
+                type: 'success'
+              });
 
-            _this.$router.push("/blogs"
-            )}
+              _this.$router.push("/articleList")
+            }
             else{
               _this.$message({
                 showClose: true,

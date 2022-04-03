@@ -1,6 +1,29 @@
 <template>
   <div>
 
+    <div class="search_blog_input">
+      <el-row>
+        <el-col :span="5"><div class="grid-content bg-purple">
+          <el-input class="content_for_search"
+                    placeholder="请输入内容"
+                    prefix-icon="el-icon-search"
+                    v-model="search_content">
+          </el-input></div>
+        </el-col>
+        <el-col :span="5"><div class="grid-content ">
+          <el-button class="search_button" type="primary" icon="el-icon-search" @click="submitSearch()">搜索</el-button>
+          <el-button class="reset_button" type="info"  @click="resetSearch()">重置</el-button>
+        </div></el-col>
+      </el-row>
+    </div>
+
+    <div class="edit_button">
+      <el-button type="primary" icon="el-icon-edit" @click="addBlog">新增</el-button>
+    </div>
+
+
+
+
     <template>
       <el-table
           :data=this.blogs
@@ -17,6 +40,12 @@
             prop="category"
             label="类别"
             width="50">
+        </el-table-column>
+        <el-table-column
+            fixed
+            prop="readNumbers"
+            label="阅读量"
+            width="70">
         </el-table-column>
         <el-table-column
             prop="userId"
@@ -49,7 +78,7 @@
             width="250">
           <template slot-scope="scope">
             <el-button @click="selectBlog(scope.row.id)" type="primary" size="small">查看</el-button>
-            <el-button @click="handleClick(scope.row)" type="warning" size="small">编辑</el-button>
+            <el-button @click="editBlog(scope.row.id)" type="warning" size="small">编辑</el-button>
             <el-button @click="blogRecycle(scope.row.id)" type="danger" size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -119,8 +148,21 @@ export default {
     handleClick(row) {
       console.log(row);
     },
+    submitSearch(){
+      this.page(1);
+    },
+    resetSearch(){
+      this.search_content='';
+      this.page(1);
+    },
     selectBlog(blogId){
       this.$router.push({name:'ArticleDetail',params:{blogId:blogId}})
+    },
+    editBlog(blogId){
+      this.$router.push({name:'ArticleEdit',params:{blogId:blogId}})
+    },
+    addBlog(){
+      this.$router.push('/articleEdit')
     },
     blogRecycle(blogId){
       const _this= this
@@ -156,17 +198,15 @@ export default {
 
 <style scoped>
 
-.block{
-  margin: 0 auto;
-  text-align: left;
-  min-height: 700px;
-  width: 700px;
-  align-self: center;
-}
 
 .mpage{
   text-align: center;
 }
 
+.edit_button{
+  text-align: left;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
 
 </style>

@@ -1,6 +1,19 @@
 <template>
   <div>
-    <Header></Header>
+    <div class="search_blog_input">
+      <el-row>
+        <el-col :span="5"><div class="grid-content bg-purple">
+          <el-input class="content_for_search"
+                    placeholder="请输入内容"
+                    prefix-icon="el-icon-search"
+                    v-model="search_content">
+          </el-input></div></el-col>
+        <el-col :span="5"><div class="grid-content ">
+          <el-button class="search_button" type="primary" icon="el-icon-search" @click="submitSearch()">搜索</el-button>
+        </div></el-col>
+      </el-row>
+    </div>
+
 
     <div class="block">
       <el-timeline class="m_bloglist">
@@ -34,10 +47,8 @@
 
 <script>
 
-import Header from "../components/Header";
 export default {
   name: "Blogs",
-  components: {Header},
   data(){
     return {
       blogs: {},
@@ -48,7 +59,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.query.search_content)
     this.search_content = this.$route.query.search_content
     this.page(this.currentPage)
   },
@@ -63,6 +73,10 @@ export default {
         _this.total=res.data.data.total
         _this.pageSize=res.data.data.size
       })
+    },
+    submitSearch(){
+      this.$router.push({path:'/blogs', query:{search_content: this.search_content}})
+      this.$router.go(0);
     }
   }
 }
@@ -82,6 +96,8 @@ export default {
 .mpage{
   text-align: center;
 }
-
+/*.search_blog_input{*/
+/*  */
+/*}*/
 
 </style>

@@ -11,6 +11,7 @@ import Demo2 from "@/views/Admin/ArticleDetail";
 import ArticleRecycle from "@/views/Admin/ArticleRecycle";
 import ArticleDetail from "@/views/Admin/ArticleDetail";
 import ArticleEdit from "@/views/Admin/ArticleEdit";
+import TagsList from "@/views/Admin/TagsList";
 
 
 Vue.use(VueRouter)
@@ -45,6 +46,11 @@ const routes = [
         name:'ArticleEdit',
         component: ArticleEdit
       },
+      {
+        path:'/tagsList',
+        name:'TagsList',
+        component: TagsList
+      }
     ]
   },
   {

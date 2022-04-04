@@ -24,7 +24,7 @@
       </el-form-item>
 
       <el-form-item style="width:100%;">
-        <el-button type="primary" style="width:100%;" @click="submitForm('ruleForm')">登录</el-button>
+        <el-button type="primary" style="width:100%;" @click="submitForm('ruleForm')" :loading="logining">登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -39,6 +39,7 @@ export default {
   name: "Login",
   data() {
     return {
+      logining: false,
       ruleForm: {
         userName: 'xy',
         password: '123456',
@@ -57,6 +58,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.logining = true;
           const _this =this
           this.$axios.post("/user/login",this.ruleForm).then(res=>{
             if(res.data.code==200){
@@ -75,6 +77,7 @@ export default {
             else {
               _this.$message.error(res.data.msg)
             }
+            this.logining = false;
 
           })
         } else {

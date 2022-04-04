@@ -15,6 +15,7 @@
             <el-menu-item-group>
               <el-menu-item index="/articleList" @click="goTo('/articleList')">文章管理</el-menu-item>
               <el-menu-item index="/articleRecycle" @click="goTo('/articleRecycle')">回收站管理</el-menu-item>
+              <el-menu-item index="/tagsList" @click="goTo('/tagsList')">标签管理</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 <!--          <el-menu-item index="/demo" @click="goTo('/articleList')">-->
@@ -38,10 +39,13 @@
           <div class="userCenter">
             <el-dropdown trigger="hover"
                          :hide-on-click="false">
-              <span class="el-dropdown-link">
-                {{ username }}
-                <i class="el-icon-arrow-down el-icon--right"></i>
-              </span>
+              <div class="userCenter">
+                <el-avatar :size="30" :src="avaUrl"></el-avatar>
+                <span class="el-dropdown-link">
+                  {{ username }}
+                  <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+              </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>我的消息</el-dropdown-item>
                 <el-dropdown-item>设置</el-dropdown-item>

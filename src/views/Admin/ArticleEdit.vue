@@ -19,11 +19,29 @@
           ></mavon-editor>
         </el-form-item>
 
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              类别：
+              <el-select v-model="ruleForm.category" clearable placeholder="请选择类别">
+                <el-option
+                    v-for="item in tags"
+                    :value="item.category"
+                    :label="item.category">
+                </el-option>
+              </el-select>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item>
+                <el-button type="primary" @click="submitForm('ruleForm')">发布</el-button>
+                <el-button @click="resetForm('ruleForm')">重置</el-button>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
 
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
-        </el-form-item>
       </el-form>
 
     </div>
@@ -42,7 +60,9 @@ export default {
         title: '',
         description:'',
         content:'',
+        category: ''
       },
+      tags: [],
       html : '',
       rules: {
         title: [
@@ -61,15 +81,25 @@ export default {
   created() {
     const blogId=this.$route.params.blogId
     const _this = this
+
     if(blogId){
       this.$axios.get("/blogs/"+blogId).then(res =>{
         const blog = res.data.data
-        this.ruleForm.id=blog.id
-        this.ruleForm.title = blog.title
-        this.ruleForm.description = blog.description
-        this.ruleForm.content = blog.content
+        _this.ruleForm.id=blog.id
+        _this.ruleForm.title = blog.title
+        _this.ruleForm.description = blog.description
+        _this.ruleForm.content = blog.content
+        _this.ruleForm.category=blog.category
       })
     }
+
+    this.$axios.get("/tagsOnly",{
+      headers:{
+        "token":localStorage.getItem("token")
+      }
+    }).then(res=>{
+      _this.tags=res.data.data
+    })
   },
   methods:{
     submitForm(formName) {

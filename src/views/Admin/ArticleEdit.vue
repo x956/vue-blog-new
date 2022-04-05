@@ -23,10 +23,10 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               类别：
-              <el-select v-model="ruleForm.category" clearable placeholder="请选择类别">
+              <el-select v-model="ruleForm.categoryId" clearable placeholder="请选择类别">
                 <el-option
                     v-for="item in tags"
-                    :value="item.category"
+                    :value="item.id"
                     :label="item.category">
                 </el-option>
               </el-select>
@@ -60,7 +60,7 @@ export default {
         title: '',
         description:'',
         content:'',
-        category: ''
+        categoryId: ''
       },
       tags: [],
       html : '',
@@ -89,15 +89,11 @@ export default {
         _this.ruleForm.title = blog.title
         _this.ruleForm.description = blog.description
         _this.ruleForm.content = blog.content
-        _this.ruleForm.category=blog.category
+        _this.ruleForm.categoryId=blog.categoryId
       })
     }
 
-    this.$axios.get("/tagsOnly",{
-      headers:{
-        "token":localStorage.getItem("token")
-      }
-    }).then(res=>{
+    this.$axios.get("/tagsOnly").then(res=>{
       _this.tags=res.data.data
     })
   },
@@ -106,11 +102,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           const _this = this
-          this.$axios.post("/blog/edit",_this.ruleForm,{
-            headers:{
-              "token": localStorage.getItem("token")
-            }
-          }).then(res =>{
+          this.$axios.post("/blog/edit",_this.ruleForm).then(res =>{
             if (res.data.code==200) {
 
               _this.$message({

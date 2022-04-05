@@ -61,7 +61,7 @@
             label="操作"
             width="250">
           <template slot-scope="scope">
-            <el-button @click="editTags(scope.row.id)" type="warning" size="small">编辑</el-button>
+            <el-button @click="editTags(scope.row)" type="warning" size="small">编辑</el-button>
             <el-button @click="tagsStop(scope.row.id)" type="danger" size="small">停用</el-button>
           </template>
         </el-table-column>
@@ -94,6 +94,26 @@
     >
     </el-pagination>
 
+
+    <el-dialog title="编辑标签" :visible.sync="dialogFormVisible">
+      <el-form :model="form">
+        <el-form-item label="标签名称">
+          <el-input v-model="form.category" placeholder="新建标签名称" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input v-model="form.description" placeholder="标签描述" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-radio v-model="form.status" label="0" >启用</el-radio>
+          <el-radio v-model="form.status" label="1" >停用</el-radio>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitDialogForm()">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 
 
@@ -109,7 +129,14 @@ export default {
       currentPage: 1,
       total: 0,
       pageSize: 5,
-      search_content: ''
+      search_content: '',
+      form: {
+        id:'',
+        category:'',
+        description: '',
+        status: '0'
+      },
+      dialogFormVisible:false
     }
   },
   created() {
@@ -121,42 +148,52 @@ export default {
     page(currentPage){
       const _this= this
       // console.log("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content)
-      _this.$axios.get("/tags?currentPage="+currentPage,{
-        headers:{
-          "token":localStorage.getItem("token")
-        }
-      }).then(res=>{
+      _this.$axios.get("/tags?currentPage="+currentPage).then(res=>{
         _this.tags = res.data.data.records
         _this.currentPage=res.data.data.current
         _this.total=res.data.data.total
         _this.pageSize=res.data.data.size
       })
     },
-    handleClick(row) {
-      console.log(row);
+
+    submitDialogForm(){
+      const _this = this
+      this.$axios.post("/tags/edit",this.form).then(res=>{
+        _this.dialogFormVisible = false
+        _this.$message({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success'
+        });
+        _this.$router.go(0)
+      })
     },
+
     submitSearch(){
       this.page(1);
     },
+
     resetSearch(){
       this.search_content='';
       this.page(1);
     },
-    editTags(blogId){
-      console.log(blogId)
+
+    editTags(scope){
+      this.form.id = scope.id
+      this.form.category = scope.category
+      this.form.description = scope.description
+      this.form.status= scope.status.toString()
+      this.dialogFormVisible = true
       // this.$router.push({name:'ArticleEdit',params:{blogId:blogId}})
     },
+
     addTags(){
-      console.log("添加标签")
-      // this.$router.push('/articleEdit')
+      this.dialogFormVisible=true
     },
-    tagsStop(blogId){
+
+    tagsStop(tagsId){
       const _this= this
-      this.$axios.post("/tags/stop/"+blogId,null,{
-        headers:{
-          "token": localStorage.getItem("token")
-        }
-      }).then(res =>{
+      this.$axios.post("/tags/stop/"+tagsId).then(res =>{
         console.log(res)
         const code = res.data.code
         const msg =res.data.msg

@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column
             fixed
-            prop="category"
+            prop="categoryId"
             label="类别"
             width="50">
         </el-table-column>
@@ -166,11 +166,7 @@ export default {
     },
     blogRecycle(blogId){
       const _this= this
-      this.$axios.post("/blog/recycle/"+blogId,null,{
-        headers:{
-          "token": localStorage.getItem("token")
-        }
-      }).then(res =>{
+      this.$axios.post("/blog/recycle/"+blogId).then(res =>{
         console.log(res)
         const code = res.data.code
         const msg =res.data.msg

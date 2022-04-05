@@ -5,13 +5,14 @@ import Blogs from "@/views/Blogs";
 import BlogDetail from "@/views/BlogDetail";
 // import BlogEdit from "@/views/BlogEdit";
 // import BlogRecycle from "@/views/BlogRecycle";
-import HelloWorld from "@/views/Admin/HelloWorld";
+import HelloWorld from "@/views/Admin/AdminIndex";
 import ArticleList from "@/views/Admin/ArticleList";
 import Demo2 from "@/views/Admin/ArticleDetail";
 import ArticleRecycle from "@/views/Admin/ArticleRecycle";
 import ArticleDetail from "@/views/Admin/ArticleDetail";
 import ArticleEdit from "@/views/Admin/ArticleEdit";
 import TagsList from "@/views/Admin/TagsList";
+import AdminIndex from "@/views/Admin/AdminIndex";
 
 
 Vue.use(VueRouter)
@@ -23,8 +24,8 @@ const routes = [
   },
   {
     path:'/index',
-    name: 'HelloWorld',
-    component: HelloWorld,
+    name: 'AdminIndex',
+    component: AdminIndex,
     children:[
       {
         path:'/articleList',

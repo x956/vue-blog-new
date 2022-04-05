@@ -2,7 +2,7 @@
   <div class="indexPage">
     <div class="containerWrapper">
       <div class="sidebarWrapper">
-        <el-menu default-active="1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="collapseStatus">
+        <el-menu default-active="/articleList" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="collapseStatus">
           <el-menu-item index="0">
             <i class="el-icon-menu"></i>
             <span slot="title">工作平台</span>
@@ -65,7 +65,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'AdminIndex',
   data () {
     return {
       isCollapse: false,

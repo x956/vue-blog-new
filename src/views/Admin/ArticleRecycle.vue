@@ -107,11 +107,7 @@ export default {
   methods:{
     page(currentPage){
       const _this= this
-      _this.$axios.get("/blog/getRecycle?currentPage="+currentPage,{
-        headers:{
-          "token":localStorage.getItem("token")
-        }
-      }).then(res=>{
+      _this.$axios.get("/blog/getRecycle?currentPage="+currentPage).then(res=>{
         _this.blogs = res.data.data.records
         _this.currentPage=res.data.data.current
         _this.total=res.data.data.total
@@ -123,11 +119,7 @@ export default {
       const _this= this
       this.$confirm('确认彻底删除?', '提示', {})
           .then(() => {
-            _this.$axios.post("/blog/delete/"+blogId,null,{
-              headers:{
-                "token": localStorage.getItem("token")
-              }
-            }).then(res =>{
+            _this.$axios.post("/blog/delete/"+blogId).then(res =>{
               console.log(res)
               const code = res.data.code
               const msg =res.data.msg
@@ -154,11 +146,7 @@ export default {
     },
     blogRetrieve(blogId){
       const _this= this
-      this.$axios.post("/blog/retrieveBlog/"+blogId,null,{
-        headers:{
-          "token": localStorage.getItem("token")
-        }
-      }).then(res =>{
+      this.$axios.post("/blog/retrieveBlog/"+blogId).then(res =>{
         console.log(res)
         const code = res.data.code
         const msg =res.data.msg

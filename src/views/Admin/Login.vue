@@ -54,6 +54,11 @@ export default {
       }
     };
   },
+  created() {
+    if(localStorage.getItem("token")){
+      this.$router.push("/index")
+    }
+  },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {

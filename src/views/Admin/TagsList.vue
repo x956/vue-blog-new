@@ -1,21 +1,21 @@
 <template>
   <div>
 
-    <div class="search_blog_input">
-      <el-row>
-        <el-col :span="5"><div class="grid-content bg-purple">
-          <el-input class="content_for_search"
-                    placeholder="请输入内容"
-                    prefix-icon="el-icon-search"
-                    v-model="search_content">
-          </el-input></div>
-        </el-col>
-        <el-col :span="5"><div class="grid-content ">
-          <el-button class="search_button" type="primary" icon="el-icon-search" @click="submitSearch()">搜索</el-button>
-          <el-button class="reset_button" type="info"  @click="resetSearch()">重置</el-button>
-        </div></el-col>
-      </el-row>
-    </div>
+<!--    <div class="search_blog_input">-->
+<!--      <el-row>-->
+<!--        <el-col :span="5"><div class="grid-content bg-purple">-->
+<!--          <el-input class="content_for_search"-->
+<!--                    placeholder="请输入内容"-->
+<!--                    prefix-icon="el-icon-search"-->
+<!--                    v-model="search_content">-->
+<!--          </el-input></div>-->
+<!--        </el-col>-->
+<!--        <el-col :span="5"><div class="grid-content ">-->
+<!--          <el-button class="search_button" type="primary" icon="el-icon-search" @click="submitSearch()">搜索</el-button>-->
+<!--          <el-button class="reset_button" type="info"  @click="resetSearch()">重置</el-button>-->
+<!--        </div></el-col>-->
+<!--      </el-row>-->
+<!--    </div>-->
 
     <div class="edit_button">
       <el-button type="primary" icon="el-icon-edit" @click="addTags">新增</el-button>

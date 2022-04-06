@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <bar></bar>
     <div class="mblog">
       <h2> {{ blog.title }} </h2>
       <el-divider></el-divider>
@@ -13,8 +13,10 @@
 
 <script>
 import 'github-markdown-css/github-markdown.css'
+import bar from "@/components/bar";
 export default {
   name: "BlogDetail",
+  components:{bar},
   data(){
     return{
       blog:{

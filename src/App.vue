@@ -2,9 +2,20 @@
   <div id="app">
 
     <router-view/>
-
+<!--    <bottom></bottom>-->
   </div>
 </template>
+
+
+<script>
+
+import bottom from "@/components/bottom";
+
+export default {
+  components: {bottom}
+}
+
+</script>
 
 <style>
 #app {

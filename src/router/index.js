@@ -3,11 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '@/views/Admin/Login'
 import Blogs from "@/views/Blogs";
 import BlogDetail from "@/views/BlogDetail";
-// import BlogEdit from "@/views/BlogEdit";
-// import BlogRecycle from "@/views/BlogRecycle";
-import HelloWorld from "@/views/Admin/AdminIndex";
 import ArticleList from "@/views/Admin/ArticleList";
-import Demo2 from "@/views/Admin/ArticleDetail";
 import ArticleRecycle from "@/views/Admin/ArticleRecycle";
 import ArticleDetail from "@/views/Admin/ArticleDetail";
 import ArticleEdit from "@/views/Admin/ArticleEdit";
@@ -20,7 +16,7 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect : {name : "Login"}
+    redirect : {name : "Blogs"}
   },
   {
     path:'/index',

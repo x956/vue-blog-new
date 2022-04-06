@@ -1,54 +1,63 @@
 <template>
   <div>
-    <div class="search_blog_input">
-      <el-row>
-        <el-col :span="5"><div class="grid-content bg-purple">
-          <el-input class="content_for_search"
-                    placeholder="请输入内容"
-                    prefix-icon="el-icon-search"
-                    v-model="search_content">
-          </el-input></div></el-col>
-        <el-col :span="5"><div class="grid-content ">
-          <el-button class="search_button" type="primary" icon="el-icon-search" @click="submitSearch()">搜索</el-button>
-        </div></el-col>
-      </el-row>
-    </div>
+    <el-container style="margin: 0 auto">
+      <bar></bar>
+      <el-main>
+        <el-container style="margin-left: 20px">
+          <el-aside>
+            <el-scrollbar style="width: 100%">
+              <hot-blog></hot-blog>
+            </el-scrollbar>
+          </el-aside>
+          <el-main class="main-blog">
+            <div id="myBlogList">
+              <div v-for="blog in blogs">
+                <blogOverView :id="blog.id" :title="blog.title" :description="blog.description" :time="blog.updateTime"
+                              :readNumbers="blog.readNumbers"
+                              :discussCount="0" :tags="blog.categoryId"
+                              :createBy="blog.userId"/>
+              </div>
 
-
-    <div class="block">
-      <el-timeline class="m_bloglist">
-        <el-timeline-item :timestamp=blog.updateTime placement="top" v-for="blog in blogs">
-          <el-card>
-            <h4>
-            <router-link :underline="false" :to="{name :'BlogDetail', params :{blogId:blog.id}}">
-              {{ blog.title }}
-            </router-link>
-            </h4>
-            <p>{{ blog.description }}</p>
-          </el-card>
-        </el-timeline-item>
-      </el-timeline>
-    </div>
-
-    <el-pagination class="mpage"
-                   background
-                   layout="prev, pager, next"
-                   :current-page="currentPage"
-                   :page-size="pageSize"
-                   :total="total"
-                   @current-change="page"
-    >
-    </el-pagination>
-
+              <el-pagination class="mpage"
+                             background
+                             layout="prev, pager, next"
+                             :current-page="currentPage"
+                             :page-size="pageSize"
+                             :total="total"
+                             @current-change="page"
+              >
+              </el-pagination>
+            </div>
+          </el-main>
+          <el-aside style="margin-right: 20px">
+              <el-scrollbar style="width: 100%">
+                <hot-blog></hot-blog>
+              </el-scrollbar>
+          </el-aside>
+        </el-container>
+      </el-main>
+      <el-footer>
+        <div class="line"></div>
+          <p id="txt">
+            <el-link :underline="false" type="info">© 2022 喜羊羊的博客&nbsp;&nbsp;</el-link>
+         </p>
+        <div class="line"/>
+      </el-footer>
+    </el-container>
   </div>
-
 
 </template>
 
 <script>
 
+import blogOverView from "@/components/blogOverView";
+import bar from "@/components/bar";
+import HotBlog from "@/components/hotBlog";
+import bottom from "@/components/bottom";
+
 export default {
   name: "Blogs",
+  components:{HotBlog, blogOverView,bar,bottom},
   data(){
     return {
       blogs: {},
@@ -77,7 +86,13 @@ export default {
     submitSearch(){
       this.$router.push({path:'/blogs', query:{search_content: this.search_content}})
       this.$router.go(0);
-    }
+    },
+    toblogDetail(blogId){
+      this.$router.push({name:'BlogDetail',params:{blogId:blogId}})
+    },
+    getTime(time) {//将时间戳转化为几分钟前，几小时前
+      return date.timeago(time);
+    },
   }
 }
 </script>
@@ -95,9 +110,31 @@ export default {
 
 .mpage{
   text-align: center;
+  margin-top: 20px;
 }
 /*.search_blog_input{*/
 /*  */
 /*}*/
+.el-header, .el-footer {
+  background-color: #B3C0D1;
+  color: #333;
+  /*position: relative;*/
+}
+.el-aside {
+  background-color: #E9EEF3;
+  color: #333;
+  /*display: block;*/
+  /*position: absolute;*/
+}
 
+.el-main {
+  background-color: #E9EEF3;
+  color: #333;
+  /*overflow-y: scroll;*/
+  /*position: absolute;*/
+}
+.main-blog{
+  /*overflow-y: scroll;*/
+  /*position: absolute;*/
+}
 </style>

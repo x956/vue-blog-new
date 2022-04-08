@@ -13,6 +13,7 @@
 
 
           <div style="width: 20%;float: left;margin: 10px 10% 0px 30px" class="hidden-xs-only">
+
             <el-input placeholder="搜索博客" v-model="search_content" suffix-icon="el-icon-search"
                       @keyup.enter.native="submitSearch"/>
           </div>
@@ -43,8 +44,12 @@ export default {
         this.activeIndex = key
     },
     submitSearch(){
-      this.$router.push({path:'/blogs', query:{search_content: this.search_content}})
-      this.$router.go(0)
+      console.log("这里是submitSearch"+this.search_content)
+      this.$emit("submitSearch",this.search_content)
+      // this.$router.go(0)
+    },
+    getSearchContent(){
+      return this.search_content
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container style="margin: 0 auto">
-      <bar></bar>
+      <bar v-on:submitSearch="getSearchContent"></bar>
       <el-main>
         <el-container style="margin-left: 20px">
           <el-aside>
@@ -14,8 +14,8 @@
               <div v-for="blog in blogs">
                 <blogOverView :id="blog.id" :title="blog.title" :description="blog.description" :time="blog.updateTime"
                               :readNumbers="blog.readNumbers"
-                              :discussCount="0" :tags="blog.categoryId"
-                              :createBy="blog.userId"/>
+                              :discussCount="0" :tags="blog.category"
+                              :createBy="blog.createBy"/>
               </div>
 
               <el-pagination class="mpage"
@@ -68,31 +68,46 @@ export default {
     }
   },
   created() {
-    this.search_content = this.$route.query.search_content
+    this.search_content = this.$route.params.searchContent
+    console.log(this.search_content)
     this.page(this.currentPage)
   },
   methods:{
     page(currentPage){
       const _this= this
       console.log("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content)
-      _this.$axios.get("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content).then(res=>{
+      _this.$axios.get("/blogs/blogVO?currentPage="+currentPage+"&searchContent="+this.search_content).then(res=>{
         console.log(res)
-        _this.blogs = res.data.data.records
-        _this.currentPage=res.data.data.current
-        _this.total=res.data.data.total
-        _this.pageSize=res.data.data.size
+        if(res.data.code==200) {
+          _this.blogs = res.data.data.records
+          _this.currentPage = res.data.data.current
+          _this.total = res.data.data.total
+          _this.pageSize = res.data.data.size
+        }else{
+          _this.$message({
+            showClose: true,
+            message: res.data.msg,
+            type: 'error'
+          });
+        }
       })
     },
-    submitSearch(){
-      this.$router.push({path:'/blogs', query:{search_content: this.search_content}})
-      this.$router.go(0);
-    },
+    // submitSearch(){
+    //   this.$router.push({path:'/blogs', query:{search_content: this.search_content}})
+    //   this.$router.go(0);
+    // },
     toblogDetail(blogId){
       this.$router.push({name:'BlogDetail',params:{blogId:blogId}})
     },
     getTime(time) {//将时间戳转化为几分钟前，几小时前
       return date.timeago(time);
     },
+    getSearchContent(search_content){
+      console.log("这里是getSearchContent",search_content)
+      this.search_content=search_content
+      this.page(this.currentPage)
+      // this.$router.go(0)
+    }
   }
 }
 </script>

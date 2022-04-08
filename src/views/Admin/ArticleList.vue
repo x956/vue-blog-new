@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="search_blog_input">
+    <div class="search_blog_input" >
       <el-row>
         <el-col :span="5"><div class="grid-content bg-purple">
           <el-input class="content_for_search"
@@ -29,15 +29,16 @@
           :data=this.blogs
           border
           style="width: 100%">
+
         <el-table-column
             fixed
-            prop="id"
-            label="ID"
+            type="index"
+            label="序号"
             width="50">
         </el-table-column>
         <el-table-column
             fixed
-            prop="categoryId"
+            prop="category"
             label="类别"
             width="50">
         </el-table-column>
@@ -48,7 +49,7 @@
             width="70">
         </el-table-column>
         <el-table-column
-            prop="userId"
+            prop="createBy"
             label="创建者"
             width="70">
         </el-table-column>
@@ -65,7 +66,7 @@
         <el-table-column
             prop="status"
             label="状态"
-            width="50">
+            width="100">
         </el-table-column>
         <el-table-column
             prop="updateTime"
@@ -130,16 +131,25 @@ export default {
     }
   },
   created() {
-    console.log(this.$route.query.search_content)
-    this.search_content = this.$route.query.search_content
+    console.log(this.search_content)
+    // console.log(this.$route.query.search_content)
+
     this.page(this.currentPage)
   },
   methods:{
     page(currentPage){
       const _this= this
       console.log("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content)
-      _this.$axios.get("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content).then(res=>{
+      _this.$axios.get("/blogs/blogVO?currentPage="+currentPage+"&searchContent="+this.search_content).then(res=>{
         _this.blogs = res.data.data.records
+        for(let i = 0;i<_this.blogs.length;i++){
+          if(_this.blogs[i].status==0){
+            _this.blogs[i].status='已发布'
+          }else{
+            _this.blogs[i].status='已回收'
+          }
+        }
+
         _this.currentPage=res.data.data.current
         _this.total=res.data.data.total
         _this.pageSize=res.data.data.size
@@ -193,6 +203,7 @@ export default {
 </script>
 
 <style scoped>
+
 
 
 .mpage{

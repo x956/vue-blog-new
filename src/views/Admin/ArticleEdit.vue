@@ -23,11 +23,12 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               类别：
-              <el-select v-model="ruleForm.categoryId" clearable placeholder="请选择类别">
+              <el-select v-model="selectValue" clearable placeholder="请选择类别">
                 <el-option
                     v-for="item in tags"
                     :value="item.id"
-                    :label="item.category">
+                    :label="item.category"
+                    @click.native="setCategoryId">
                 </el-option>
               </el-select>
             </div>
@@ -60,9 +61,11 @@ export default {
         title: '',
         description:'',
         content:'',
-        categoryId: ''
+        category: '',
+        categoryId:''
       },
       tags: [],
+      selectValue:'',   //标签选择
       html : '',
       rules: {
         title: [
@@ -89,11 +92,12 @@ export default {
         _this.ruleForm.title = blog.title
         _this.ruleForm.description = blog.description
         _this.ruleForm.content = blog.content
-        _this.ruleForm.categoryId=blog.categoryId
+        _this.ruleForm.category=blog.category
+        _this.selectValue=blog.category
       })
     }
 
-    this.$axios.get("/tagsOnly").then(res=>{
+    this.$axios.get("/tagsList").then(res=>{
       _this.tags=res.data.data
     })
   },
@@ -155,6 +159,9 @@ export default {
     change(value, render) {
       this.html = render;
     },
+    setCategoryId(){
+      this.ruleForm.categoryId=this.selectValue
+    }
   }
 
 

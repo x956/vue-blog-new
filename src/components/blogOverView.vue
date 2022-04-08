@@ -15,7 +15,7 @@
         <span class="el-icon-time hidden-xs-only" style="width: 25%" >&nbsp;{{time}}</span>
         <span class="el-icon-view hidden-xs-only" style="width: 20%">&nbsp;{{readNumbers}}</span>
         <span class="el-icon-chat-line-square hidden-xs-only" style="width: 20%">&nbsp;{{ discussCount }}</span>
-        <el-tag size="small" style="width: 10%">{{tags}}</el-tag>
+        <el-tag  style="margin-right: 20px">{{tags}}</el-tag>
         <span class="el-icon-user-solid hidden-xs-only" style="width: 20%;text-align: center;">
           &nbsp;{{createBy}}
         </span>

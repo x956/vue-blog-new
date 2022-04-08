@@ -9,6 +9,9 @@ import store from './store'
 
 axios.defaults.baseURL="http://localhost:8080"
 
+
+// TODO:对于访问/blogs/**的方法放行且不需要发送token（发送也可以，就是需要验证token的时效性）
+// TODO:对于其他访问接口需要发送token 若没有token需要提示重新登录/页面转换到login页面
 axios.interceptors.request.use(
     config => {
         config.withCredentials = true // 允许携带token ,解决跨域产生的相关问题

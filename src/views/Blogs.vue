@@ -12,7 +12,7 @@
           <el-main class="main-blog">
             <div id="myBlogList">
               <div v-for="blog in blogs">
-                <blogOverView :id="blog.id" :title="blog.title" :description="blog.description" :time="blog.updateTime"
+                <blogOverView :id="blog.id" :title="blog.title" :description="blog.description|ellipsis" :time="blog.updateTime"
                               :readNumbers="blog.readNumbers"
                               :discussCount="0" :tags="blog.category"
                               :createBy="blog.createBy"/>
@@ -31,7 +31,7 @@
           </el-main>
           <el-aside style="margin-right: 20px">
               <el-scrollbar style="width: 100%">
-                <hot-blog></hot-blog>
+                <tagsList></tagsList>
               </el-scrollbar>
           </el-aside>
         </el-container>
@@ -54,10 +54,11 @@ import blogOverView from "@/components/blogOverView";
 import bar from "@/components/bar";
 import HotBlog from "@/components/hotBlog";
 import bottom from "@/components/bottom";
+import tagsList from "@/components/tagsList";
 
 export default {
   name: "Blogs",
-  components:{HotBlog, blogOverView,bar,bottom},
+  components:{HotBlog, blogOverView,bar,bottom,tagsList},
   data(){
     return {
       blogs: {},
@@ -67,8 +68,20 @@ export default {
       search_content: ''
     }
   },
+  filters: {
+    /**
+     * 文件名超出24个字符后显示省略号
+     */
+    ellipsis(value) {
+      if (!value) return ''
+      if (value.length > 100) {
+        return value.slice(0, 100) + '...'
+      }
+      return value
+    }
+  },
   created() {
-    this.search_content = this.$route.params.searchContent
+    this.search_content=''
     console.log(this.search_content)
     this.page(this.currentPage)
   },

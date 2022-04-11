@@ -136,6 +136,18 @@ export default {
 
     this.page(this.currentPage)
   },
+  filters: {
+    /**
+     * 文件名超出24个字符后显示省略号
+     */
+    ellipsis(value) {
+      if (!value) return ''
+      if (value.length > 100) {
+        return value.slice(0, 100) + '...'
+      }
+      return value
+    }
+  },
   methods:{
     page(currentPage){
       const _this= this

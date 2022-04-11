@@ -31,9 +31,9 @@
           style="width: 100%">
         <el-table-column
             fixed
-            prop="id"
-            label="ID"
-            width="250">
+            type="index"
+            label="序号"
+            width="50">
         </el-table-column>
         <el-table-column
             fixed

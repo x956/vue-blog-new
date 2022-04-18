@@ -8,7 +8,20 @@
                     placeholder="请输入内容"
                     prefix-icon="el-icon-search"
                     v-model="search_content">
-          </el-input></div>
+          </el-input>
+        </div>
+        </el-col>
+        <el-col :span="5"><div>
+        类别：
+        <el-select v-model="selectValue" clearable placeholder="请选择类别">
+          <el-option
+              v-for="item in tags"
+              :value="item.id"
+              :label="item.category"
+              @click.native="setCategoryId">
+          </el-option>
+        </el-select>
+          </div>
         </el-col>
         <el-col :span="5"><div class="grid-content ">
           <el-button class="search_button" type="primary" icon="el-icon-search" @click="submitSearch()">搜索</el-button>
@@ -127,14 +140,20 @@ export default {
       currentPage: 1,
       total: 0,
       pageSize: 5,
-      search_content: ''
+      search_content: '',
+      tags: [],
+      selectValue:'',   //标签选择
+      categoryId: ''
     }
   },
   created() {
     console.log(this.search_content)
     // console.log(this.$route.query.search_content)
-
     this.page(this.currentPage)
+    const _this = this
+    this.$axios.get("/tagsList").then(res=>{
+      _this.tags=res.data.data
+    })
   },
   filters: {
     /**
@@ -151,26 +170,35 @@ export default {
   methods:{
     page(currentPage){
       const _this= this
-      console.log("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content)
-      _this.$axios.get("/blogs/blogVO?currentPage="+currentPage+"&searchContent="+this.search_content).then(res=>{
-        _this.blogs = res.data.data.records
-        for(let i = 0;i<_this.blogs.length;i++){
-          if(_this.blogs[i].status==0){
-            _this.blogs[i].status='已发布'
-          }else{
-            _this.blogs[i].status='已回收'
+      console.log("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content+"&categoryId="+this.categoryId)
+      _this.$axios.get("/blogs/blogVO?currentPage="+currentPage+"&searchContent="+this.search_content+"&categoryId="+this.categoryId).then(res=>{
+        if(res.data.data!=null){
+          _this.blogs = res.data.data.records
+          for(let i = 0;i<_this.blogs.length;i++){
+            if(_this.blogs[i].status==0){
+              _this.blogs[i].status='已发布'
+            }else{
+              _this.blogs[i].status='已回收'
+            }
           }
+          _this.currentPage=res.data.data.current
+          _this.total=res.data.data.total
+          _this.pageSize=res.data.data.size
+        }else{
+          _this.$message({
+            showClose: true,
+            message:"未查询到相关结果",
+            type:"error"
+          })
         }
-
-        _this.currentPage=res.data.data.current
-        _this.total=res.data.data.total
-        _this.pageSize=res.data.data.size
       })
     },
     handleClick(row) {
       console.log(row);
     },
     submitSearch(){
+      this.categoryId=''
+      this.selectValue=''
       this.page(1);
     },
     resetSearch(){
@@ -207,8 +235,12 @@ export default {
             type: 'error'
           })
         }
-
       })
+    },
+    setCategoryId(){
+      this.search_content = ''
+      this.categoryId=this.selectValue
+      this.page(1)
     }
   }
 }

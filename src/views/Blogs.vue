@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-container style="margin: 0 auto">
-      <bar v-on:submitSearch="getSearchContent"></bar>
+      <bar   v-on:submitSearch="getSearchContent"></bar>
       <el-main>
         <el-container style="margin-left: 20px">
           <el-aside>
@@ -31,7 +31,7 @@
           </el-main>
           <el-aside style="margin-right: 20px">
               <el-scrollbar style="width: 100%">
-                <tagsList></tagsList>
+                <tagsList v-on:submitCategoryId="getCategoryId"></tagsList>
               </el-scrollbar>
           </el-aside>
         </el-container>
@@ -65,7 +65,8 @@ export default {
       currentPage: 1,
       total: 0,
       pageSize: 5,
-      search_content: ''
+      search_content: '',
+      categoryId: ''
     }
   },
   filters: {
@@ -82,16 +83,16 @@ export default {
   },
   created() {
     this.search_content=''
-    console.log(this.search_content)
+    this.categoryId = ''
     this.page(this.currentPage)
   },
   methods:{
     page(currentPage){
       const _this= this
-      console.log("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content)
-      _this.$axios.get("/blogs/blogVO?currentPage="+currentPage+"&searchContent="+this.search_content).then(res=>{
+      console.log("/blogs?currentPage="+currentPage+"&searchContent="+this.search_content+"&categoryId="+this.categoryId)
+      _this.$axios.get("/blogs/blogVO?currentPage="+currentPage+"&searchContent="+this.search_content+"&categoryId="+this.categoryId).then(res=>{
         console.log(res)
-        if(res.data.code==200) {
+        if(res.data.data !=null) {
           _this.blogs = res.data.data.records
           _this.currentPage = res.data.data.current
           _this.total = res.data.data.total
@@ -99,7 +100,7 @@ export default {
         }else{
           _this.$message({
             showClose: true,
-            message: res.data.msg,
+            message: "未查询到相关信息",
             type: 'error'
           });
         }
@@ -117,9 +118,15 @@ export default {
     },
     getSearchContent(search_content){
       console.log("这里是getSearchContent",search_content)
+      this.categoryId=''
       this.search_content=search_content
       this.page(this.currentPage)
       // this.$router.go(0)
+    },
+    getCategoryId(categoryId){
+      this.search_content = ''
+      this.categoryId = categoryId
+      this.page(this.currentPage)
     }
   }
 }

@@ -7,7 +7,7 @@
     </p>
     <hr />
     <div v-for="tags in tagsList">
-      <el-link type="info" style="margin: 5px 0" :underline="false"  @click="totagsDetail(tags.id)">
+      <el-link type="info" style="margin: 5px 0" :underline="false"  @click="submitCategoryId(tags.id)">
         《{{tags.category}}》
       </el-link>
     </div>
@@ -30,8 +30,8 @@ export default {
     })
   },
   methods:{
-    totagsDetail(tagsId){
-      this.$message.success(tagsId+"----分类查询")
+    submitCategoryId(categoryId){
+      this.$emit("submitCategoryId",categoryId)
     }
   }
 }
